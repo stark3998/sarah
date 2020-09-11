@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block body %}
+
+<!-- <div class="jumbotron text-center">
+        <h3>Welcome to Sarah's Blog</h3>
+        <p>Please add your blogs here xD.</p>
+</div> -->
+
+<!-- <div>
+    <nav class="site-navigation">
+		<div class="site-navigation-inner site-container">
+			<img src="{% static 'images/site-logo.png' %}" alt="site logo">
+			<div class="main-navigation">
+				<ul class="main-navigation__ul">
+					<li><a href="#">Homepage</a></li>
+					<li><a href="blog.html">Blogs</a></li>
+					<li><a href="#">Page 2</a></li>
+					<li><a href="#">Page 3</a></li>
+					<li><a href="#">Page 4</a></li>
+				</ul>
+			</div>
+			<div id="myBtn" class="burger-container" onclick="myFunction(this)">
+				<div class="bar1"></div>
+				<div class="bar2"></div>
+				<div class="bar3"></div>
+			</div>
+			<script>
+				function myFunction(x) {
+					x.classList.toggle("change");
+				}
+			</script>
+
+		</div>
+	</nav>
+</div> -->
+
+<div>
+	<section class="fh5co-top-banner">
+		<div class="top-banner__inner site-container">
+			<div class="top-banner__image">
+				<img src="{% static 'images/top-banner-author.jpg' %}" alt="author image">
+			</div>
+			<div class="top-banner__text">
+				<div class="top-banner__text-up">
+					<span class="brand-span">Hello! I'm</span>
+					<h2 class="top-banner__h2">Sarah</h2>
+				</div>
+				<div class="top-banner__text-down">
+					<h2 class="top-banner__h2">Jean</h2>
+					<span class="brand-span">Author, Writer, Traveler</span>
+				</div>
+				<p>One Girl. One Mission. Can She Go Beyond?</p>
+				<a href="#" class="brand-button">Read bio > </a>
+			</div>
+		</div>
+	</section>
+</div>
+
+
+<!-- <p>
+        {% if request.user.is_authenticated %}
+                Logged In, {{request.user.username}}
+        {% else %}
+                Not Logged In
+        {% endif %}
+
+</p> -->
+{% endblock body %}
+
