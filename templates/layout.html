@@ -10,29 +10,27 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/slick.css' %}">
     <title>Sarah Jean</title>
+    <script>$('.toast').toast(option)</script> s
 </head>
 
-<body style="background-color: black;">
+<body>
     {% include "includes/navbar.html" %}
 
+    <div  class="container">
 
-
-    <div style="margin-top : 100px;" class="container">
-
-        {% if messages %}
-
-            {% for message in messages %}
-                {% if message.tags == "info" %}
-                    <div class="alert alert-danger">{{ message }}</div>
-                {% else %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-
-                {% endif %}
-
-
-            {% endfor %}
+        <!-- {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == "info" %}
+        <div class="alert alert-danger">{{ message }}</div>
+        {% else %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
 
         {% endif %}
+
+
+        {% endfor %}
+
+        {% endif %} -->
 
     </div>
     <div>
@@ -48,6 +46,7 @@
         crossorigin="anonymous"></script>
     <script src="{% static 'js/bootstrap.min.js'%}"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    
 
 </body>
 

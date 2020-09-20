@@ -8,13 +8,13 @@ class Article(models.Model):
     title = models.CharField(max_length = 50,verbose_name = "Title")
     content = RichTextField()
     created_date = models.DateTimeField(auto_now_add=True,verbose_name="Created On")
-    article_image = models.FileField(blank = True,null = True,verbose_name="Image")
+    article_image = models.FileField(blank = True,null = True,verbose_name="Image", default="bg_1.jpg")
     slug = models.SlugField(unique=True, max_length=100)
 
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):    
         if not self.slug:
             self.slug = slugify(self.title)
         return super(Article, self).save(*args, **kwargs)        

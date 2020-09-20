@@ -136,6 +136,7 @@ CKEDITOR_CONFIGS = {
         "removePlugins": "stylesheetparser",
         "allowedContent" : True,
         "width" : "100%",
+        'enterMode': 2,
     }
 }
 MEDIA_URL = '/media/'

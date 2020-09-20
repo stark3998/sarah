@@ -1,7 +1,5 @@
-{% extends "layout.html" %}
-
+{% extends "includes/colornav.html" %}
 {% block body %}
-
 {% load crispy_forms_tags %}
 
 <div class="row">
@@ -13,7 +11,7 @@
             
             {{form|crispy}}
             <br>
-            <button type = "submit" class = "btn btn-danger">Login</button>
+            <button type = "submit" class = "btn btn-danger">Register</button>
         </form>
     </div>
   </div>

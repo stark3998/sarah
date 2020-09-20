@@ -1,26 +1,29 @@
 {% extends "layout.html" %}
-
+{% load static %}
 {% block body %}
 
-<div class ="row">
-    
-        <div class="col-md-10 offset-md-3">
-            <div class="col-lg-8">
-                <h3>Articles</h3>
-                <hr>
-                </div>
-        </div>
-</div>
-<div class ="row">
-    <div class="col-md-10 offset-md-3">
-        <div class="col-lg-8">
-            <form>
-                 {% csrf_token %} 
-                <input type="text" name = "keyword" class="input-sm" maxlength="64" placeholder="Search...">
-              <button type="submit" class="btn btn-danger">Search</button>
-            </form>
-      </div>
+<div class="row">
+
+  <div class="col-md-10 offset-md-3">
+    <div class="col-lg-8">
+      <h3>Articles</h3>
+      <hr>
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10 offset-md-3">
+    <div class="col-lg-8">
+      <form>
+        {% csrf_token %}
+        <div class="md-form active-cyan active-cyan-2 mb-3">
+          <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="keyword">
+        </div>
+        <!-- <input type="text" name="keyword" class="input-sm" maxlength="64" placeholder="Search..."> -->
+        <!-- <button type="submit" class="btn btn-danger">Search</button> -->
+      </form>
+    </div>
+  </div>
 
 </div>
 
@@ -29,18 +32,38 @@
 
 {% for article in articles %}
 <div class="row">
-    <div class="col-md-10 offset-md-3">
-
+  <div class="col-md-10 offset-md-3">
+    <div class="col-lg-8">
+      <div class="card mb-3">
+        {% if article.article_image %}
+        <div style="background-image:url({{article.article_image.url}}); height:300px;
+        background-position:center; object-fit: cover;">&nbsp;</div>
+        {% endif %}
+        <div class="card-body">
+          <a href="{% url 'article:detail' article.slug %}">
+            <h2 class="mt-4 card-title">{{article.title}}</h2>
+          </a>
+          <p class="lead">
+            Published By - {{article.author.username}}
+          </p>
+          <!-- <h1 class="card-title" >{{article.title}}</h5> -->
+          <p class="card-text">{{article.content|safe|truncatewords:50}}</p>
+          <p class="card-text">Last updated on {{article.created_date}}</p>
+          <a href="{% url 'article:detail' article.slug %}" class="center btn btn-danger my-3">Read More</a>
+        </div>
+      </div>
+    </div>
     <!-- Post Content Column -->
     <div class="col-lg-8">
 
       <!-- Title -->
-      <a href="{% url 'article:detail' article.slug %}"><h2 class="mt-4">{{article.title}}</h2></a> 
-        
+      <a href="{% url 'article:detail' article.slug %}">
+        <h2 class="mt-4">{{article.title}}</h2>
+      </a>
+
       <!-- Author -->
       <p class="lead">
-        
-        {{article.author.username}} Published By
+        Published By - {{article.author.username}}
       </p>
 
       <hr>
@@ -50,37 +73,38 @@
       <hr>
       <!-- Preview Image -->
       {% if article.article_image %}
-      <a href="{% url 'article:detail' article.slug %}"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt=""></a>
+      <a href="{% url 'article:detail' article.slug %}"><img class="img-fluid rounded"
+          src="{{article.article_image.url}}" alt=""></a>
       {% endif %}
-     
+
 
       <hr>
 
       <!-- Post Content -->
       <p class="lead">
-          {{article.content|safe|truncatewords:50}}
+        {{article.content|safe|truncatewords:50}}
       </p>
 
-      <a href="{% url 'article:detail' article.slug %}" class ="btn btn-danger my-3">Read More</a>
+      <a href="{% url 'article:detail' article.slug %}" class="btn btn-danger my-3">Read More</a>
       <hr>
-         
-        </div>
-      </div>
-      </div>
+
+    </div>
+  </div>
+</div>
 
 {% endfor %}
 
 
 {% else %}
-<div class ="row">
-    
-    <div class="col-md-10 offset-md-3">
-        <div class="col-lg-8">
-<div class = "alert alert-danger">
-   No Articles Found
-</div>
-</div>
-</div>
+<div class="row">
+
+  <div class="col-md-10 offset-md-3">
+    <div class="col-lg-8">
+      <div class="alert alert-danger">
+        No Articles Found
+      </div>
+    </div>
+  </div>
 </div>
 {% endif %}
 

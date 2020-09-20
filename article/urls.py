@@ -12,5 +12,5 @@ urlpatterns = [
     path('delete/<slug:slug>',views.deleteArticle,name = "delete"),
     path('',views.articles,name = "articles"),
     path('comment/<slug:slug>',views.addComment,name = "comment"),
-    
+    path('trial', views.loadtrial, name="trial")
 ]
