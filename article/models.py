@@ -42,8 +42,20 @@ class Message(models.Model):
     class Meta:
         ordering = ['-created_date']
 
+class AboutMe(models.Model):
+    author = models.ForeignKey("auth.User",on_delete = models.CASCADE,verbose_name = "Author")
+    title = models.CharField(max_length=50, verbose_name= "Title")
+    content = RichTextField()
+    created_date = models.DateTimeField(auto_now_add=True,verbose_name="Created On")
 
+def get_image_filename(instance, filename):
+    title = instance.post.title
+    slug = slugify(title)
+    return "post_images/%s-%s" % (slug, filename)  
 
+class aboutMeImages(models.Model):
+    about = models.ForeignKey(AboutMe,on_delete=models.CASCADE, verbose_name="About Me")
+    image = models.ImageField(blank=True, null=True, verbose_name="Image", default="bg_1.jpg")
 
 class Comment(models.Model):
     article = models.ForeignKey(Article,on_delete = models.CASCADE,verbose_name = "Article",related_name="comments")

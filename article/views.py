@@ -1,10 +1,12 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse
-from .forms import ArticleForm, MessageForm
-from .models import Article, Comment, Message
+from .forms import ArticleForm, MessageForm, AboutMeForm, aboutMeImagesForm
+from .models import Article, Comment, Message, aboutMeImages, AboutMe
 from django.contrib import messages
 from django.template.defaultfilters import slugify
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
 
 
 def loadtrial(request):
@@ -46,7 +48,7 @@ def addMessage(request):
         msg.save()
 
         messages.success(request, "The message was created successfully")
-        return redirect("article:messages")
+        return HttpResponseRedirect("/messages")
     return render(request, "addmessage.html", {"form": form})
 
 
@@ -62,9 +64,46 @@ def index(request):
     return render(request, "allarticles.html", {"articles": articles})
     # return render(request, "index.html")
 
-
 def about(request):
-    return render(request, "about.html")
+    if request.user.is_authenticated:
+        about = AboutMe.objects.filter(author=request.user).last()
+        if about:
+            print(about)
+            imgs = aboutMeImages.objects.filter(about=about)
+            print(imgs)
+            return render(request, "about.html", {"about":about,"imgs":imgs})
+        else:
+            return HttpResponseRedirect('/addaboutme')
+    # return render(request, "addaboutme.html")
+    return HttpResponseRedirect("/article")
+
+
+@login_required(login_url="user:login")
+def addabout(request):
+    ImageFormSet = modelformset_factory(aboutMeImages, form=aboutMeImagesForm, extra=10)
+    print(request.user.is_authenticated)
+    if request.method == 'POST':
+        aboutForm = AboutMeForm(request.POST)
+        formset = ImageFormSet(request.POST, request.FILES, queryset=aboutMeImages.objects.none())
+
+        if aboutForm.is_valid() and formset.is_valid():
+            x = aboutForm.save(commit=False)
+            x.author = request.user
+            x.save()
+
+            for y in formset.cleaned_data:
+                if y:
+                    img = y['image']
+                    photo = aboutMeImages(about = x, image=img)
+                    photo.save()
+            messages.success(request, "The page was updated successfully")
+            return HttpResponseRedirect("/about")
+        else:
+            print(aboutForm.errors, formset.errors)
+    else:
+        aboutmeform = AboutMeForm()
+        formset = ImageFormSet(queryset=aboutMeImages.objects.none())
+    return render(request, "addaboutme.html", {'postForm': aboutmeform, 'formset': formset})
 
 
 @login_required(login_url="user:login")

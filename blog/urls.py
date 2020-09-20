@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
-from article.views import msg, addMessage, msgdetail
+from article.views import msg, addMessage, msgdetail, addabout
 
 
 from article import views
@@ -30,5 +30,6 @@ urlpatterns = [
     path('messages', msg, name="messages"),
     path('addMessage', addMessage, name="addMessage"),
     path('messages/<slug:slug>/',msgdetail,name = "detail"),
+    path('addaboutme', addabout, name = "addAbout"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

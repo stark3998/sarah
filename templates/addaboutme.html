@@ -1,0 +1,21 @@
+
+{% extends "includes/colornav.html" %}
+
+{% load crispy_forms_tags %}
+{% block body %}
+
+<div class="row" style="margin-top: 10%;">
+    <div class="col-md-6 col=sm-3 offset-md-4 offset-sm-3">
+        <h1>About Me Section</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{postForm.media}}
+            {{postForm|crispy}}
+            {{ formset | crispy}}
+            <br>
+            <button type="submit" class="btn btn-danger">Update About Me</button>
+        </form>
+    </div>
+</div>
+
+{% endblock body %}

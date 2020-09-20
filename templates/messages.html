@@ -2,7 +2,7 @@
 {% block body %}
 {% load static %}
 
-{% if msgs %}
+
 <br>
 <div class="row hidden-md-down ">
     <div class="col-md-10 offset-md-3">
@@ -20,6 +20,7 @@
     <div class="col-md-10 offset-md-10">
         <a class="nav-link" href="{% url 'addMessage' %}">&nbsp;Add A Birthday Wish ! </a>
     </div>
+    {% if msgs %}
     
 </div>
 <div id="colorlib-main">
