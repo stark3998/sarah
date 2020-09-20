@@ -25,7 +25,7 @@ SECRET_KEY = '&49ga4rqxrp)^w=%ed&s4qf0*)1yvl!$6j=e@b^^e=i-s3g+@+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "user",
     'crispy_forms',
     "ckeditor",
-    'django_cleanup',    
+    'django_cleanup', 
+    'storages',   
 ]
 
 MIDDLEWARE = [
@@ -79,13 +80,26 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'sarah',
+         'USER': 'jatin@triallv',
+         'PASSWORD': 'Stark12345*',
+         'HOST': 'triallv.mysql.database.azure.com',
+         'PORT': '',
+         'OPTIONS': {
+            'ssl': {'ca': 'BaltimoreCyberTrustRoot.crt.pem'}
+        }
+     }
+ }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -123,11 +137,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
+# STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -139,7 +153,20 @@ CKEDITOR_CONFIGS = {
         'enterMode': 2,
     }
 }
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_FILE_STORAGE = 'blog.custom_azure.AzureMediaStorage'
+STATICFILES_STORAGE = 'blog.custom_azure.AzureStaticStorage'
+
+STATIC_LOCATION = "static"
+MEDIA_LOCATION = "media"
+
+AZURE_ACCOUNT_NAME = "florassist"
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+MEDIA_LOCATION = f"http://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media"
+MEDIA_ROOT=f'http://{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
 
 

@@ -10,17 +10,26 @@
                     <h1 class="mb-3">{{article.title}}</h1>
                 </div>
                 <div class="row pt-md-4 justify-content-center">
+                    {% if not msgs %}
                     <p class="mb-3">
                         {% if article.article_image %}
                         <img class="responsive-img" src="{{article.article_image.url}}" alt="">
                         {% endif %}
                     </p>
+                    {% else %}
+                    <p class="mb-3">
+                        {% if article.birthday_image %}
+                        <img class="responsive-img" src="{{article.birthday_image.url}}" alt="">
+                        {% endif %}
+                    </p>
+                    {% endif %}
                 </div>
                 <div class="row pt-md-4 justify-content-left">
                     <p class="mb-3 ml-5" style="font-size: larger;">
                         {{article.content|safe}}
                     </p>
                 </div>
+                {% if not msgs %}
                 <div class="pt-5 mt-5">
                     <h3 class="mb-5 font-weight-bold">{% if comments %}({{comments.count }}){% endif %} Comment{{comments|pluralize:",s"}}
                     </h3>
@@ -63,6 +72,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

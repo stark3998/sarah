@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse
-from .forms import ArticleForm
-from .models import Article, Comment
+from .forms import ArticleForm, MessageForm
+from .models import Article, Comment, Message
 from django.contrib import messages
 from django.template.defaultfilters import slugify
 from django.db.models import Count
@@ -13,10 +13,10 @@ def loadtrial(request):
     print("Keyword : ", keyword)
     if keyword:
         articles = Article.objects.filter(title__contains=keyword)
-        return render(request, "messages.html", {"articles": articles})
+        return render(request, "allarticles.html", {"articles": articles})
     articles = Article.objects.all()
     print(articles)
-    return render(request, "messages.html", {"articles": articles})
+    return render(request, "allarticles.html", {"articles": articles})
 
 
 def articles(request):
@@ -25,10 +25,29 @@ def articles(request):
     print("Keyword : ", keyword)
     if keyword:
         articles = Article.objects.filter(title__contains=keyword)
-        return render(request, "messages.html", {"articles": articles})
+        return render(request, "allarticles.html", {"articles": articles})
     articles = Article.objects.all()
     print(articles)
-    return render(request, "messages.html", {"articles": articles})
+    return render(request, "allarticles.html", {"articles": articles})
+
+def msg(request):
+    print("Loadin Messages")
+    msgs = Message.objects.all()
+    print(msgs)
+    return render(request, "messages.html", {"msgs": msgs})
+
+def addMessage(request):
+    form = MessageForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        msg = form.save(commit=False)
+        msg.slug = slugify(msg.title)
+        # msg.author = request.user
+        msg.save()
+
+        messages.success(request, "The message was created successfully")
+        return redirect("article:messages")
+    return render(request, "addmessage.html", {"form": form})
 
 
 def index(request):
@@ -40,7 +59,7 @@ def index(request):
         return render(request, "messages.html", {"articles": articles})
     articles = Article.objects.all()
     print(articles)
-    return render(request, "messages.html", {"articles": articles})
+    return render(request, "allarticles.html", {"articles": articles})
     # return render(request, "index.html")
 
 
@@ -77,6 +96,15 @@ def detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
     comments = article.comments.all()
     return render(request, "detail.html", {"article": article, "comments": comments})
+
+def msgdetail(request, slug):
+    #article = Article.objects.filter(id = id).first()
+    article = get_object_or_404(Message, slug=slug)
+    # comments = article.comments.all()
+    msgs = {
+        "message" : True
+    }
+    return render(request, "detail.html", {"article": article, "msgs": msgs})
 
 
 @login_required(login_url="user:login")

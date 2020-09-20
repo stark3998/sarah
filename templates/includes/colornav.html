@@ -5,6 +5,7 @@
 <head>
     <title>Sarah Jean</title>
     <meta charset="utf-8">
+    <script>window.CKEDITOR_BASEPATH = 'https://florassist.blob.core.windows.net/static/ckeditor/ckeditor/';</script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="{% static 'images/sarah1.jpg' %}">
 
@@ -32,6 +33,7 @@
     <link rel="stylesheet" href="{% static 'css/style1.css' %}">
 
     <link rel="stylesheet" href="{% static 'css/materialize/min.css' %}">
+    
 </head>
 
 <body>
@@ -46,7 +48,7 @@
                             <a class="nav-link" href="{% url 'article:articles'  %}">Articles</a>
                         </li>
                         <li><a class="nav-link" href="{% url 'about'  %}">About Me</a></li>
-
+                        <li><a class="nav-link" href="{% url 'messages'  %}">Birthday Wishes &nbsp; <i class="material-icons">cake</i></a></li>
                     </ul>
 
                 </nav>
@@ -54,6 +56,9 @@
                 <div class="colorlib-footer">
                     <nav id="colorlib-main-menu" role="navigation">
                         <ul>
+                            <!-- <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'addMessage' %}">&nbsp;Add A Birthday Wish ! </a>
+                            </li> -->
                             {% if request.user.is_authenticated %}
                             <li class="nav-item active">
                                 <a class="nav-link" href="{% url 'article:dashboard'  %}">&nbsp;Dashboard - {{request.user.username}}</a>
